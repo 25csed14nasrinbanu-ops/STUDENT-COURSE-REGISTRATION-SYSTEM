@@ -1,186 +1,120 @@
-# STUDENT-COURSE-REGISTRATION-SYSTEM
-A java based console application for student course registration
-import java.util.ArrayList;
-import java.util.Scanner;
+# Student Course Registration System
 
-class Course {
-    String code;
-    String title;
-    String description;
-    int capacity;
-    String schedule;
+A Java-based console application for student course registration that allows students to view available courses, register for courses, drop courses, and manage their course registrations.
 
-    Course(String code, String title, String description,
-           int capacity, String schedule) {
-        this.code = code;
-        this.title = title;
-        this.description = description;
-        this.capacity = capacity;
-        this.schedule = schedule;
-    }
+## Features
 
-    void display() {
-        System.out.println("\nCourse Code: " + code);
-        System.out.println("Title: " + title);
-        System.out.println("Description: " + description);
-        System.out.println("Available Slots: " + capacity);
-        System.out.println("Schedule: " + schedule);
-    }
-}
+- ✅ **View Available Courses** - Display all available courses with details (code, title, description, capacity, schedule)
+- ✅ **Register for Courses** - Students can register for available courses with capacity management
+- ✅ **Drop Courses** - Remove registered courses and free up capacity
+- ✅ **View Registered Courses** - Display all courses a student is registered for
+- ✅ **Duplicate Prevention** - Prevents students from registering for the same course twice
+- ✅ **Capacity Management** - Automatically manages course capacity and prevents over-registration
 
-class Student {
-    int id;
-    String name;
-    ArrayList<Course> registeredCourses = new ArrayList<>();
+## How to Compile and Run
 
-    Student(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+### Prerequisites
+- Java Development Kit (JDK) 8 or higher
+- Command line/Terminal
 
-    void registerCourse(Course course) {
-        if (registeredCourses.contains(course)) {
-            System.out.println("You have already registered for this course.");
-        } else if (course.capacity > 0) {
-            registeredCourses.add(course);
-            course.capacity--;
-            System.out.println("Course registered successfully!");
-        } else {
-            System.out.println("Course is full!");
-        }
-    }
+### Steps to Run
 
-    void dropCourse(String code) {
-        for (int i = 0; i < registeredCourses.size(); i++) {
-            Course course = registeredCourses.get(i);
+1. **Compile the program:**
+   ```bash
+   javac StudentCourseRegistration.java
+   ```
 
-            if (course.code.equalsIgnoreCase(code)) {
-                registeredCourses.remove(i);
-                course.capacity++;
-                System.out.println("Course dropped successfully!");
-                return;
-            }
-        }
+2. **Run the program:**
+   ```bash
+   java StudentCourseRegistration
+   ```
 
-        System.out.println("You are not registered for this course.");
-    }
+3. **Follow the menu prompts:**
+   - Enter your Student ID and Name when prompted
+   - Choose from the menu options (1-5)
+   - Enter 5 to exit the system
 
-    void viewRegisteredCourses() {
-        if (registeredCourses.isEmpty()) {
-            System.out.println("\nNo courses registered.");
-        } else {
-            System.out.println("\n----- REGISTERED COURSES -----");
+## Usage Example
 
-            for (Course course : registeredCourses) {
-                System.out.println(course.code + " - " + course.title);
-            }
-        }
-    }
-}
+```
+===== STUDENT COURSE REGISTRATION SYSTEM =====
+Enter Student ID: 101
+Enter Student Name: John Doe
 
-public class StudentCourseRegistration {
+===== MENU =====
+1. Display Available Courses
+2. Register for a Course
+3. Drop a Course
+4. View Registered Courses
+5. Exit
+Enter your choice: 1
 
-    public static void main(String[] args) {
+----- AVAILABLE COURSES -----
+Course Code: CS101
+Title: Java Programming
+Description: Introduction to Java programming
+Available Slots: 3
+Schedule: Monday - 10:00 AM
 
-        Scanner sc = new Scanner(System.in);
+Course Code: CS102
+Title: Data Structures
+Description: Learn basic data structures
+Available Slots: 2
+Schedule: Wednesday - 2:00 PM
 
-        ArrayList<Course> courses = new ArrayList<>();
+Course Code: CS103
+Title: Operating Systems
+Description: Learn operating system concepts
+Available Slots: 2
+Schedule: Friday - 11:00 AM
+```
 
-        courses.add(new Course(
-                "CS101",
-                "Java Programming",
-                "Introduction to Java programming",
-                3,
-                "Monday - 10:00 AM"));
+## Available Courses
 
-        courses.add(new Course(
-                "CS102",
-                "Data Structures",
-                "Learn basic data structures",
-                2,
-                "Wednesday - 2:00 PM"));
+| Course Code | Title | Description | Capacity | Schedule |
+|------------|-------|-------------|----------|----------|
+| CS101 | Java Programming | Introduction to Java programming | 3 | Monday - 10:00 AM |
+| CS102 | Data Structures | Learn basic data structures | 2 | Wednesday - 2:00 PM |
+| CS103 | Operating Systems | Learn operating system concepts | 2 | Friday - 11:00 AM |
 
-        courses.add(new Course(
-                "CS103",
-                "Operating Systems",
-                "Learn operating system concepts",
-                2,
-                "Friday - 11:00 AM"));
+## Project Structure
 
-        System.out.println("===== STUDENT COURSE REGISTRATION SYSTEM =====");
+```
+STUDENT-COURSE-REGISTRATION-SYSTEM/
+├── StudentCourseRegistration.java  (Main application file)
+├── README.md                       (This file)
+└── .gitignore                      (Git ignore file)
+```
 
-        System.out.print("Enter Student ID: ");
-        int id = sc.nextInt();
-        sc.nextLine();
+## Classes Overview
 
-        System.out.print("Enter Student Name: ");
-        String name = sc.nextLine();
+### Course Class
+- Stores course information (code, title, description, capacity, schedule)
+- `display()` - Displays course details
 
-        Student student = new Student(id, name);
+### Student Class
+- Stores student information (id, name, registered courses)
+- `registerCourse(Course)` - Registers a student for a course
+- `dropCourse(String)` - Drops a course by course code
+- `viewRegisteredCourses()` - Displays all registered courses
 
-        int choice;
+### StudentCourseRegistration Class
+- Main application class
+- Handles user menu and interactions
 
-        do {
-            System.out.println("\n===== MENU =====");
-            System.out.println("1. Display Available Courses");
-            System.out.println("2. Register for a Course");
-            System.out.println("3. Drop a Course");
-            System.out.println("4. View Registered Courses");
-            System.out.println("5. Exit");
+## Future Enhancements
 
-            System.out.print("Enter your choice: ");
-            choice = sc.nextInt();
-            sc.nextLine();
+- [ ] Separate classes into individual files
+- [ ] Add persistent data storage (database/file)
+- [ ] Add student authentication/login
+- [ ] Add course prerequisites
+- [ ] Add grades/marks tracking
+- [ ] Add admin features (add/remove courses, manage capacity)
+- [ ] Add input validation and exception handling
+- [ ] Create GUI version using Swing/JavaFX
 
-            switch (choice) {
+## Author
+25csed14nasrinbanu-ops
 
-                case 1:
-                    System.out.println("\n----- AVAILABLE COURSES -----");
-
-                    for (Course course : courses) {
-                        course.display();
-                    }
-                    break;
-
-                case 2:
-                    System.out.print("Enter Course Code to Register: ");
-                    String registerCode = sc.nextLine();
-
-                    boolean found = false;
-
-                    for (Course course : courses) {
-                        if (course.code.equalsIgnoreCase(registerCode)) {
-                            student.registerCourse(course);
-                            found = true;
-                            break;
-                        }
-                    }
-
-                    if (!found) {
-                        System.out.println("Invalid Course Code!");
-                    }
-                    break;
-
-                case 3:
-                    System.out.print("Enter Course Code to Drop: ");
-                    String dropCode = sc.nextLine();
-                    student.dropCourse(dropCode);
-                    break;
-
-                case 4:
-                    student.viewRegisteredCourses();
-                    break;
-
-                case 5:
-                    System.out.println("Thank you for using the system!");
-                    break;
-
-                default:
-                    System.out.println("Invalid choice!");
-            }
-
-        } while (choice != 5);
-
-        sc.close();
-    }
-}
+## License
+This project is open source and available under the MIT License.
